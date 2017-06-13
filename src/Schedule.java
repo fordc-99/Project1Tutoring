@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Collections;
+
 
 public class Schedule {
 	
@@ -11,7 +14,7 @@ public class Schedule {
 	public void addPeriod(String day, int time) {
 		for (int i=0; i<days.length; i++) {
 			if (day.equals(days[i])) {
-				schedule[i][(time/100) - 9]++;
+				schedule[(time/100) - 9][i]++;
 			}
 		}
 	}
@@ -28,6 +31,19 @@ public class Schedule {
 	}
 	
 	public void findTimes() {
-		
+		ArrayList<Period> studentTimes = new ArrayList<Period>();
+		for (int i=0; i<schedule.length; i++) {
+			for (int j=0; j<schedule[i].length; j++) {
+				if (schedule[i][j] != 0) {
+					studentTimes.add(new Period(days[j], i*100 + 900, schedule[i][j]));
+				}
+			}
+		}
+		//System.out.println(studentTimes);
+		Collections.sort(studentTimes);
+		System.out.println(studentTimes.get(0));
+		System.out.println(studentTimes.get(1));
+		System.out.println(studentTimes.get(2));
+		//System.out.println(studentTimes);
 	}
 }
