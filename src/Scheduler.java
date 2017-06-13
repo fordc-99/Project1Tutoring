@@ -2,7 +2,7 @@
 public class Scheduler {
 	public static void main (String[] args) {
 		Schedule s = new Schedule();
-		s.addPeriod("M", 900);
+		/*s.addPeriod("M", 900);
 		s.addPeriod("M", 900);
 		s.addPeriod("M", 900);
 		s.addPeriod("T", 1000);
@@ -13,7 +13,10 @@ public class Scheduler {
 		s.addPeriod("F", 2100);
 		s.addPeriod("F", 2100);
 		s.addPeriod("F", 2100);
-		s.addPeriod("F", 2100);
+		s.addPeriod("F", 2100);*/
+		
+		String expression = "Mario<T[1100][2000]><H[2000]>";
+		
 		s.printSchedule();
 		s.findTimes();
 	}

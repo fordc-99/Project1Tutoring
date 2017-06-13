@@ -1,14 +1,18 @@
+import java.util.ArrayList;
+
 
 public class Period implements Comparable<Period>{
 	
 	private String day;
 	private int time;
 	private int numStudents;
+	private ArrayList<String> students;
 	
 	public Period(String d, int t, int numStud) {
 		day = d;
 		time = t;
 		numStudents = numStud;
+		students = new ArrayList<String>();
 	}
 	
 	public String getDay() {
@@ -21,6 +25,18 @@ public class Period implements Comparable<Period>{
 	
 	public int getNumStudents() {
 		return numStudents;
+	}
+	
+	public ArrayList<String> getStudents() {
+		return students;
+	}
+	
+	public void addStudent(String student) {
+		students.add(student);
+	}
+	
+	public void removeStudent(String student) {
+		students.remove(student);
 	}
 	
 	@Override     

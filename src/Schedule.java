@@ -39,11 +39,13 @@ public class Schedule {
 				}
 			}
 		}
-		//System.out.println(studentTimes);
 		Collections.sort(studentTimes);
+		
 		System.out.println(studentTimes.get(0));
-		System.out.println(studentTimes.get(1));
-		System.out.println(studentTimes.get(2));
-		//System.out.println(studentTimes);
+		ArrayList<String> studentsToRemove = studentTimes.get(0).getStudents();
+		studentTimes.remove(0);
+		for (int i=0; i<studentTimes.size(); i++) {
+			
+		}
 	}
 }
