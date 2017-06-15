@@ -1,18 +1,16 @@
 import java.util.ArrayList;
-
+import java.util.Arrays;
 
 public class Period implements Comparable<Period>{
 	
 	private String day;
 	private int time;
-	private int numStudents;
 	private ArrayList<String> students;
 	
-	public Period(String d, int t, int numStud) {
+	public Period(String d, int t, String[] studs) {
 		day = d;
 		time = t;
-		numStudents = numStud;
-		students = new ArrayList<String>();
+		students = new ArrayList<String>(Arrays.asList(studs));
 	}
 	
 	public String getDay() {
@@ -24,24 +22,23 @@ public class Period implements Comparable<Period>{
 	}
 	
 	public int getNumStudents() {
-		return numStudents;
+		return students.size();
 	}
 	
 	public ArrayList<String> getStudents() {
 		return students;
 	}
 	
-	public void addStudent(String student) {
-		students.add(student);
-	}
-	
-	public void removeStudent(String student) {
-		students.remove(student);
+	public void removeStudents(ArrayList<String> toRemove) {
+		for (int i=0; i<toRemove.size(); i++) {
+			if (students.indexOf(toRemove.get(i)) != -1)
+				students.remove(toRemove.get(i));
+		}
 	}
 	
 	@Override     
 	public String toString() {         
-		return day + " at " + time + " has " + numStudents + " students.";     
+		return day + " at " + time + " has " + getNumStudents() + " new students: " + getStudents();     
 	} 
 	
 	@Override     
