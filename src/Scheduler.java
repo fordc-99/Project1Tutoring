@@ -31,7 +31,7 @@ public class Scheduler {
 					e.printStackTrace();
 				}
 			} else {
-				System.out.println("end of input");
+				System.out.println("end of input\n\n");
 				userInput.close();
 				break;
 			}

@@ -20,23 +20,49 @@ public class Schedule {
 			}
 		}
 	}
+	
+	public String findBiggestSpace(int col) {
+		int x = 0;
+		for (int i=0; i<schedule.length; i++) {
+			if (schedule[i][col] != null)
+				x = Math.max(x, schedule[i][col].length());
+		}
+		
+		String space = "";
+		for (int y=0; y<x; y++) {
+			space += " ";
+		}
+		return space;
+	}
+	
+	public String findRemainingSpace(String big, String small) {
+		int diff = big.length() - small.length();
+		String space = "";
+		for (int y=0; y<diff; y++) {
+			space += " ";
+		}
+		return space;
+	}
 
 	public void printSchedule() {
-		System.out.println("     M  T  W  H  F");
+		System.out.println("      M" + findBiggestSpace(0) + 
+							   "  T" + findBiggestSpace(1) +  
+							   "  W" + findBiggestSpace(2) + 
+							   "  H" + findBiggestSpace(3) + "  F");
 		for (int i = 0; i < schedule.length; i++) {
 			System.out.print(String.format("%04d", i * 100 + 900));
 			for (int j = 0; j < schedule[i].length; j++) {
 				String x = schedule[i][j];
 				if (x == null)
-					x = "";
-				System.out.print("[" + x + "]");
+					x = findBiggestSpace(j);
+				System.out.print("[" + x + findRemainingSpace(findBiggestSpace(j), x) + "]");
 			}
 			System.out.println();
 		}
 	}
 
 	public void findTimes() {
-		System.out.println("\nBest three times:\n");
+		System.out.println("\nThree best times:\n");
 		ArrayList<Period> studentTimes = new ArrayList<Period>();
 		for (int i = 0; i < schedule.length; i++) {
 			for (int j = 0; j < schedule[i].length; j++) {
@@ -49,13 +75,13 @@ public class Schedule {
 		for (int x = 0; x < 3; x++) {
 			Collections.sort(studentTimes);
 
-			System.out.println(studentTimes.get(0));
+			System.out.println("\n" + studentTimes.get(0));
 
 			if (x != 2) {
 				ArrayList<String> toRemove = studentTimes.get(0).getStudents();
 				studentTimes.remove(0);
 				
-				System.out.println("Need to remove follwing students from schedule: " + toRemove + "\n");
+				System.out.println("\nNeed to remove follwing students from schedule: " + toRemove);
 			
 
 				for (int i = 0; i < studentTimes.size(); i++) {

@@ -34,6 +34,7 @@ public class Period implements Comparable<Period>{
 		//System.out.println("students to remove:"  + toRemove);
 		for (int i=0; i<toRemove.size(); i++) {
 			if (students.indexOf(toRemove.get(i)) != -1) {
+				System.out.println("Removing " + toRemove.get(i) + " from " + day + " " + time);
 				students.remove(toRemove.get(i));
 			}
 		}
