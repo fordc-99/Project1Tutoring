@@ -30,10 +30,14 @@ public class Period implements Comparable<Period>{
 	}
 	
 	public void removeStudents(ArrayList<String> toRemove) {
+		//System.out.println("students in period: " + students);
+		//System.out.println("students to remove:"  + toRemove);
 		for (int i=0; i<toRemove.size(); i++) {
-			if (students.indexOf(toRemove.get(i)) != -1)
+			if (students.indexOf(toRemove.get(i)) != -1) {
 				students.remove(toRemove.get(i));
+			}
 		}
+		//System.out.println("students left: " + students + "\n");
 	}
 	
 	@Override     

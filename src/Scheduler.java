@@ -5,26 +5,44 @@ import java.util.Scanner;
 
 
 public class Scheduler {
-	public static void main (String[] args) {
+	public static void main (String[] args) throws StackUnderflowException, ExpressionUnbalancedError {
 		Schedule s = new Schedule();
 		
-		File myFile = new File("D:/NYU Summer 2017 Data Structs/projects/Project1Tutoring/src/data/hw1_set1.txt");
-		try {
-			Scanner scanner = new Scanner(myFile);
-			while (scanner.hasNextLine()) {
-				//System.out.println(scanner.nextLine());
-				System.out.println(Arrays.toString(scanner.nextLine().split("\\(")));
+		File folder = new File("src/data");
+		File[] files = folder.listFiles();
+		Scanner userInput = new Scanner(System.in);
+		
+		while (true) {
+			System.out.println("would you like to add a file? (y/n)");
+			if (userInput.next().toLowerCase().equals("y")) {
+				System.out.println("which file would you like to add? (1st file, 2nd file, 3rd file, etc)");
+				System.out.println(Arrays.toString(files));
+				try {
+					Scanner scanner = new Scanner(files[userInput.nextInt() - 1]);
+					while (scanner.hasNextLine()) {
+						try {
+							isValid(scanner.nextLine(), s);
+						} catch (ExpressionUnbalancedError e) {
+							e.printStackTrace();
+						}
+					}
+					scanner.close();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+			} else {
+				System.out.println("end of input");
+				userInput.close();
+				break;
 			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		
-		
-		
-		/*String expression = "Mario<T[1100][2000]><H[2000]>";
-		String[] exp = expression.split("<|>");
-		
+		s.printSchedule();
+		s.findTimes();
+	}
+	
+	public static void parseValid(String line, Schedule s) {
+		String[] exp = line.split("<|>");
+		System.out.println(Arrays.toString(exp));
 		for (int i=0; i<exp.length; i++) {
 			if (exp[i].indexOf("[") != -1) {
 				String[] newexp = exp[i].split("\\[");
@@ -35,8 +53,52 @@ public class Scheduler {
 				}
 			}
 		}
-		
-		s.printSchedule();
-		s.findTimes();*/
+	}
+	
+	public static void isValid(String dataSet, Schedule s) throws StackUnderflowException, ExpressionUnbalancedError {
+		Stack<Character> stack = new Stack<Character>();
+		int startVal = 0;
+		for (int i=0; i<dataSet.length(); i++) {
+			switch(dataSet.charAt(i)){
+			case '[' :
+				stack.push('[');
+				//System.out.println(dataSet.charAt(i) + " detected");
+				break;
+			case '(' :
+				stack.push('(');
+				//System.out.println(dataSet.charAt(i) + " detected");
+				break;
+			case '<' :
+				stack.push('<');
+				//System.out.println(dataSet.charAt(i) + " detected");
+				break;
+			case ']':
+				if (stack.top() == '[') {
+					//System.out.println("Match found for [");
+					stack.pop();
+				} else {
+					throw new ExpressionUnbalancedError();
+				}
+				break;
+			case ')':
+				if (stack.top() == '(') {
+					//System.out.println("Match found for (");
+					stack.pop();
+					parseValid(dataSet.substring(startVal+1, i), s);
+					startVal = i+1;
+				} else {
+					throw new ExpressionUnbalancedError();
+				}
+				break;
+			case '>':
+				if (stack.top() == '<') {
+					//System.out.println("Match found for <");
+					stack.pop();
+				} else {
+					throw new ExpressionUnbalancedError();
+				}
+				break;
+			}
+		}
 	}
 }
